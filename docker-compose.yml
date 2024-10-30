@@ -1,0 +1,47 @@
+services:
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    tty: true
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - ./frontend:/var/www/html
+    ports:
+      - "4000:4000"
+    networks:
+      - playlist-book-network
+
+  backend:
+    container_name: backend
+    build: ./backend
+    tty: true
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+    ports:
+      - "5000:5000"
+    networks:
+      - playlist-book-network
+    depends_on:
+      - db
+
+  db:
+    container_name: db-playlist-book
+    image: postgres:16
+    env_file:
+      - ./backend/.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - playlist-book-network
+
+networks:
+  playlist-book-network:
+    driver: bridge
+
+volumes:
+  db_data:
