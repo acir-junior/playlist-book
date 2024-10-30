@@ -17,6 +17,8 @@ RUN pnpm prisma generate
 
 RUN mv .env.example .env
 
+RUN chmod +x .sh/start-back.sh
+
 EXPOSE 5000
 
-CMD ["pnpm", "start"]
+CMD ["/bin/sh", "/app/.sh/start-back.sh"]
