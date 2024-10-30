@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend playlist de livros",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acir-junior/playlist-book.git"
+  },
+  "author": "Acir Junior",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acir-junior/playlist-book/issues"
+  },
+  "homepage": "https://github.com/acir-junior/playlist-book#readme",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "prisma": "^5.21.1",
+    "typescript": "^5.6.3"
+  }
+}
