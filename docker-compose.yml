@@ -1,0 +1,56 @@
+services:
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    tty: true
+    env_file:
+      - ./frontend/.env
+    restart: always
+    volumes:
+      - ./frontend:/var/www/html
+    ports:
+      - "4000:4000"
+    networks:
+      - playlist-book-network
+
+  backend:
+    container_name: backend
+    build: ./backend
+    tty: true
+    env_file:
+      - ./backend/.env
+    restart: always
+    volumes:
+      - ./backend:/app
+    ports:
+      - "5000:5000"
+    networks:
+      - playlist-book-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    container_name: db-playlist-book
+    image: postgres:16
+    env_file:
+      - ./backend/.env
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - playlist-book-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U uplaylist -d playlist-book"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  playlist-book-network:
+    driver: bridge
+
+volumes:
+  db_data:
